@@ -1,0 +1,60 @@
+create table participante(
+id_part int(11) not null auto_increment, 
+nome varchar (255) not null,
+login varchar (255) not null,
+senha varchar (255) not null,
+email varchar (255) not null,
+endereco varchar (255) not null,
+telefone varchar (255) not null,
+primary key (id_part)
+) engine=InnoDB default charset=utf8;
+
+
+create table lance(
+    id_lance int(11) not null auto_increment,
+    val_lance decimal (10,2) not null,
+    hora_lance time not null,
+    primary key (id_lance)
+)engine=InnoDB default charset=utf8;
+
+alter table lance add foreign key id_part (id_part);
+
+
+create table leilao(
+    id_leilao int(11) not null auto_increment,
+    dt_inicio date not null,
+    hr_inicio time not null,
+    dt_final date not null,
+    hr_final time not null,
+    primary key (id_leilao)
+)engine=InnoDB default charset=utf8;
+
+create table item_leilao(
+            id_item int(11) not null auto_increment,
+            titulo_item varchar(255) not null,
+            descricao_item varchar(255) not null,
+            lance_minimo decimal(10,2),
+            caminho_foto varchar(255),
+            arrematado int(11),
+            primary key (id_item)
+        )engine=InnoDB default charset=utf8;
+-------------------------------------------
+alter table lance add column id_item int(11);
+alter table lance add column id_part int;
+
+ALTER TABLE lance ADD FOREIGN KEY fk_item (id_item)
+    REFERENCES item_leilao(id_item) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+ALTER TABLE lance ADD FOREIGN KEY fk (id_part)
+    REFERENCES item_leilao(id_part) ON UPDATE NO ACTION ON DELETE NO ACTION;
+
+alter table item_leilao add column id_leilao int(11);
+
+ALTER TABLE item_leilao ADD FOREIGN KEY fk_leilao (id_leilao)
+    REFERENCES leilao(id_leilao) ON UPDATE NO ACTION
+    ON DELETE NO ACTION;
+
+
+
+
+
